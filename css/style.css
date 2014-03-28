@@ -1,0 +1,30 @@
+.small-input {
+    width: 60px;
+}
+
+table thead {
+    text-align: center;
+    vertical-align: middle;
+    font-weight: bold;
+}
+
+.components {
+    padding: 5px;
+    background: #f4e1dc;
+    font-size: smaller;
+    border-radius: 3px;
+}
+
+h4 {
+    text-align: center;
+    margin: 0;
+    padding: 5px;
+}
+
+a {
+    cursor: pointer;
+}
+
+.special-list {
+    list-style: none;
+}

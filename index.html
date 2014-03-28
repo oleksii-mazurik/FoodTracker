@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <link href="css/bootstrap.css" rel="stylesheet" />
+    <link href="css/bootstrap-theme.css" rel="stylesheet" />
+    <link href="css/style.css" rel="stylesheet" />
+    <link href="css/bootstrap-switch.min.css" rel="stylesheet" />
+</head>
+<body>
+
+
+    <div class="form-group">
+        <div class="col-sm-2 products">
+            <div>
+                <h3>
+                    <span class="label label-primary">ПРОДУКТЫ</span>
+                </h3>
+
+                <hr />
+            </div>
+            <ul data-bind="foreach: products" class="list-group">
+                <li class="list-group-item">
+                   <div class="checkbox">
+                       <label class="control-label">
+                           <input type="checkbox" checked="checked" data-bind="checked: enabled" />
+                           <span data-bind="text: name"></span>
+                       </label>
+                   </div>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-6 mealsList">
+            <h3>
+                <span class="label label-warning">СПИСОК БЛЮД</span>
+            </h3>
+            <hr />
+            <div class="alert alert-warning in" style="display: none">
+                <button id='warning-button' type="button" class="close" aria-hidden="false">&times;</button>
+                <strong>Внимание!</strong> Лимит на добавление блюд превышен.
+            </div>
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <td>Название</td>
+                        <td>Калории</td>
+                        <td>Жиры</td>
+                        <td>Углеводы</td>
+                        <td>Белки</td>
+                    </tr>
+                    <tr class="form-group">
+                        <td>
+                            <input type="text" class="form-control" placeholder="Название блюда..." data-bind="value: filterName, valueUpdate: 'afterkeydown'" />
+                        </td>
+                        <td>
+                            <input type="text" class="small-input form-control" placeholder="<=" data-bind="value: filterCal, valueUpdate: 'afterkeydown'" />
+                        </td>
+                        <td>
+                            <input type="text" class="small-input form-control" placeholder="<=" data-bind="value: filterFats, valueUpdate: 'afterkeydown'" />
+                        </td>
+                        <td>
+                            <input type="text" class="small-input form-control" placeholder="<=" data-bind="value: filterCarbos, valueUpdate: 'afterkeydown'" />
+                        </td>
+                        <td>
+                            <input type="text" class="small-input form-control" placeholder="<=" data-bind="value: filterProts, valueUpdate: 'afterkeydown'" />
+                        </td>
+                    </tr>
+                </thead>
+                <tbody data-bind="foreach: filteredMeals">
+                    <tr>
+                        <td>
+                            <span data-bind="text: name"></span>
+                        </td>
+                        <td>
+                            <span data-bind="text: calories"></span>
+                        </td>
+                        <td>
+                            <span data-bind="text: fats"></span>
+                        </td>
+                        <td>
+                            <span data-bind="text: carbohydrate"></span>
+                        </td>
+                        <td>
+                            <span data-bind="text: proteins"></span>
+                        </td>
+                        <td>
+
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                    Добавить в <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li>
+                                        <a href="#" data-bind="click: $root.addToBreakfast">Завтрак</a>
+                                    </li>
+                                    <li>
+                                        <a href="#" data-bind="click: $root.addToLunch">Обед</a>
+                                    </li>
+                                    <li>
+                                        <a href="#" data-bind="click: $root.addToDinner">Ужин</a>
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="5">
+                            <div class="components">
+                                <b>Состав:</b> <span data-bind="text: viewProducts"></span>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-4 formatMeals">
+            <h3>
+                <span class="label label-info">СОСТАВЛЕНИЕ МЕНЮ</span>
+            </h3>
+
+            <hr />
+
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <td>Прием пищи:</td>
+                        <td>Калории</td>
+                        <td>Жиры</td>
+                        <td>Белки</td>
+                        <td>Углеводы</td>
+                    </tr>
+                </thead>
+                <!-- BREAKFAST -->
+                <tr>
+                    <td>
+                        <h4>Завтрак</h4>
+                    </td>
+                    <td>
+                        <input type="text" class="small-input form-control" data-bind="value: breakfastFilterCal" placeholder="<="  />
+                    </td>
+                    <td>
+                        <input type="text" class="small-input form-control" placeholder="<=" data-bind="value: breakfastFilterFats"  />
+                    </td>
+                    <td>
+                        <input type="text" class="small-input form-control" placeholder="<=" data-bind="value: breakfastFilterProts" />
+                    </td>
+                    <td>
+                        <input type="text" class="small-input form-control" placeholder="<=" data-bind="value: breakfastFilterCarbos" />
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="5">
+                        <ul class="list-group" data-bind="foreach: breakfast">
+                            <li class="list-group-item">
+                                <a href="#" class="badge" data-bind="click: $root.removeFromBreakfast">&times;</a>
+                                <span data-bind="text: name"></span>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Всего:
+                    </td>
+                    <td>
+                        <span data-bind="text: breakfastCalories"></span>
+                    </td>
+                    <td>
+                        <span data-bind="text: breakfastFats"></span>
+                    </td>
+                    <td>
+                        <span data-bind="text: breakfastProts"></span>
+                    </td>
+                    <td>
+                        <span data-bind="text: breakfastCarbos"></span>
+                    </td>
+                </tr>
+                <!-- LUNCH -->
+                <tr>
+                    <td>
+                        <h4>Обед</h4>
+                    </td>
+                    <td>
+                        <input type="text" class="small-input form-control" data-bind="value: lunchFilterCal" placeholder="<="  />
+                    </td>
+                    <td>
+                        <input type="text" class="small-input form-control" placeholder="<=" data-bind="value: lunchFilterFats"  />
+                    </td>
+                    <td>
+                        <input type="text" class="small-input form-control" placeholder="<=" data-bind="value: lunchFilterProts" />
+                    </td>
+                    <td>
+                        <input type="text" class="small-input form-control" placeholder="<=" data-bind="value: lunchFilterCarbos" />
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="5">
+                        <ul class="list-group" data-bind="foreach: lunch">
+                            <li class="list-group-item">
+                                <a href="#" class="badge" data-bind="click: $root.removeFromLunch">&times;</a>
+                                <span data-bind="text: name"></span>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Всего:
+                    </td>
+                    <td>
+                        <span data-bind="text: lunchCalories"></span>
+                    </td>
+                    <td>
+                        <span data-bind="text: lunchFats"></span>
+                    </td>
+                    <td>
+                        <span data-bind="text: lunchProts"></span>
+                    </td>
+                    <td>
+                        <span data-bind="text: lunchCarbos"></span>
+                    </td>
+                </tr>
+
+                <!-- DINNER -->
+
+                <tr>
+                    <td>
+                        <h4>Ужин</h4>
+                    </td>
+                    <td>
+                        <input type="text" class="small-input form-control" data-bind="value: dinnerFilterCal" placeholder="<="  />
+                    </td>
+                    <td>
+                        <input type="text" class="small-input form-control" placeholder="<=" data-bind="value: dinnerFilterFats"  />
+                    </td>
+                    <td>
+                        <input type="text" class="small-input form-control" placeholder="<=" data-bind="value: dinnerFilterProts" />
+                    </td>
+                    <td>
+                        <input type="text" class="small-input form-control" placeholder="<=" data-bind="value: dinnerFilterCarbos" />
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="5">
+                        <ul class="list-group" data-bind="foreach: dinner">
+                            <li class="list-group-item">
+                                <a href="#" class="badge" data-bind="click: $root.removeFromDinner">&times;</a>
+                                <span data-bind="text: name"></span>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Всего:
+                    </td>
+                    <td>
+                        <span data-bind="text: dinnerCalories"></span>
+                    </td>
+                    <td>
+                        <span data-bind="text: dinnerFats"></span>
+                    </td>
+                    <td>
+                        <span data-bind="text: dinnerProts"></span>
+                    </td>
+                    <td>
+                        <span data-bind="text: dinnerCarbos"></span>
+                    </td>
+                </tr>
+
+            </table>
+
+            <!-- Button trigger modal -->
+            <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal" style="margin-left: 25%">
+                <span class="glyphicon glyphicon-print"></span>
+                Вывести меню на день
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title" id="myModalLabel">Меню</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="content">
+                                <div class="menu" data-bind="visible: isFull() == 1">
+                                    <h5>Завтрак</h5>
+                                    <ol data-bind="foreach: breakfast">
+                                        <li>
+                                            <span data-bind="text: name"></span>
+                                        </li>
+                                    </ol>
+                                    <hr />
+                                    <h5>Обед</h5>
+                                    <ol data-bind="foreach: lunch">
+                                        <li>
+                                            <span data-bind="text: name"></span>
+                                        </li>
+                                    </ol>
+                                    <hr />
+                                    <h5>Ужин</h5>
+                                    <ol data-bind="foreach: dinner">
+                                        <li>
+                                            <span data-bind="text: name"></span>
+                                        </li>
+                                    </ol>
+                                    <hr />
+                                    <h5>Итого:</h5>
+                                    Калории: <span data-bind="text: breakfastCalories()+lunchCalories()+dinnerCalories()"></span><br />
+                                    Жиры: <span data-bind="text: breakfastFats()+lunchFats()+dinnerFats()"></span><br />
+                                    Углеводы: <span data-bind="text: breakfastCarbos()+lunchCarbos()+dinnerCarbos()"></span><br />
+                                    Белки: <span data-bind="text: breakfastProts()+lunchProts()+dinnerProts()"></span><br />
+                                    <hr />
+                                </div>
+                                <div class="empty" data-bind="visible: isFull() == 0">
+                                    <h4>Вы ничего не добавили. Список блюд пуст.</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+
+    <script src="scripts/jquery-1.9.1.min.js"></script>
+    <script src="scripts/bootstrap.min.js"></script>
+    <script src="scripts/underscore.js"></script>
+    <script src="scripts/knockout-3.1.0.js"></script>
+    <script src="scripts/bootstrap-switch.min.js"></script>
+    <script src="scripts/database.js"></script>
+    <script src="scripts/script.js"></script>
+</body>
+</html>
